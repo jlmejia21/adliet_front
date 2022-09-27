@@ -1,0 +1,53 @@
+<section class="section">
+  <h1 class="title">Asignación de pedidos</h1>
+  <div class="card">
+    <div class="card-content">
+      <div class="content">
+        <div class="is-flex is-flex-direction-column" style="gap: 20px">
+          <div class="is-flex is-flex-direction-row-reverse">
+            <button
+              (click)="onRegister()"
+              class="button is-primary"
+              [disabled]="results.length === 0"
+            >
+              Registrar Asignación
+            </button>
+          </div>
+
+          <div class="columns">
+            <div class="column is-4">
+              <div class="table-container table-x">
+                <table class="table" *ngIf="results && results.length > 0">
+                  <thead>
+                    <tr>
+                      <th>#Pedido</th>
+                      <th>Local</th>
+                      <th>Estado</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <ng-container *ngFor="let result of results">
+                      <ng-container *ngFor="let order of result.orders">
+                        <tr>
+                          <td>{{ order.order }}</td>
+                          <td>{{ result.store.name }}</td>
+                          <td>
+                            <span class="tag is-success">ASIGNADO</span>
+                          </td>
+                        </tr>
+                      </ng-container>
+                    </ng-container>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="column is-8">
+              <div #mapRef style="width: 100%; height: 800px"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

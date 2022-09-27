@@ -1,0 +1,85 @@
+<section class="section">
+  <h1 class="title">Pedidos</h1>
+  <div class="card">
+    <div class="card-content">
+      <div class="content">
+        <div class="columns">
+          <div class="column is-4">
+            <div class="field">
+              <label for="" class="label">Tienda</label>
+              <div class="control">
+                <input
+                  [formControl]="tiendaControl"
+                  type="text"
+                  placeholder=""
+                  class="input"
+                  [attr.disabled]="'true'"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <form [formGroup]="formSave" (ngSubmit)="onSubmit()">
+          <div class="columns">
+            <div class="column is-12">
+              <table
+                class="table"
+                *ngIf="pedidos.length > 0; else emptyTemplate"
+              >
+                <thead>
+                  <tr>
+                    <th>Pedido</th>
+                    <th>Cliente</th>
+                    <th>Latitud</th>
+                    <th>Longitud</th>
+                    <th align="center">Completado</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let pedido of pedidos">
+                    <td>{{ pedido.id_order }}</td>
+                    <td>{{ pedido.cliente }}</td>
+                    <td>{{ pedido.latitude }}</td>
+                    <td>{{ pedido.latitude }}</td>
+                    <td align="center">
+                      <label class="checkbox">
+                        <input
+                          type="checkbox"
+                          [value]="pedido.id_processes_detail"
+                          (change)="onCheckChange($event)"
+                        />
+                      </label>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <ng-template #emptyTemplate>
+                <div class="notification is-warning">
+                  <strong> No hay pedidos por actualizar. </strong>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+          <br />
+          <div class="control">
+            <app-alert></app-alert>
+          </div>
+          <br />
+
+          <div class="columns">
+            <div class="column is-flex is-flex-direction-row-reverse">
+              <button class="button is-primary">
+                <span class="icon is-small">
+                  <i class="fas fa-check"></i>
+                </span>
+                <span>Guardar</span>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

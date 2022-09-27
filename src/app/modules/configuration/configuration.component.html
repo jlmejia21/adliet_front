@@ -1,0 +1,174 @@
+<section class="section">
+  <h1 class="title">Tiendas</h1>
+  <div class="card">
+    <div class="card-content">
+      <div class="columns">
+        <div class="column is-6">
+          <form [formGroup]="formTienda" (ngSubmit)="onSubmit()">
+            <div class="field">
+              <label class="label">Código</label>
+              <div class="control">
+                <input
+                  class="input"
+                  formControlName="code"
+                  placeholder="Ingrese el codigo"
+                  type="text"
+                  [attr.disabled]="'true'"
+                />
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Nombre</label>
+              <div class="control">
+                <input
+                  class="input"
+                  formControlName="name"
+                  placeholder="Ingrese el nombre"
+                  type="text"
+                  [attr.disabled]="'true'"
+                />
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Dirección</label>
+              <div class="control">
+                <input
+                  class="input"
+                  formControlName="direction"
+                  placeholder="Ingrese la dirección"
+                  type="text"
+                  [attr.disabled]="'true'"
+                />
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Latitud</label>
+              <div class="control">
+                <input
+                  class="input"
+                  type="text"
+                  formControlName="latitude"
+                  placeholder="Ingrese Latitud"
+                  [class.is-danger]="
+                    formTienda.get('latitude')?.hasError('required') &&
+                    formTienda.controls['latitude'].touched
+                  "
+                  [class.is-danger]="
+                    formTienda.get('latitude')?.hasError('pattern') &&
+                    formTienda.controls['latitude'].touched
+                  "
+                  required
+                />
+              </div>
+
+              <p
+                class="help is-danger"
+                *ngIf="
+                  formTienda.get('latitude')?.hasError('required') &&
+                  formTienda.controls['latitude'].touched
+                "
+              >
+                Es un campo requerido
+              </p>
+
+              <p
+                class="help is-danger"
+                *ngIf="
+                  formTienda.get('latitude')?.hasError('pattern') &&
+                  formTienda.controls['latitude'].touched
+                "
+              >
+                El campo ingresado no es correcto
+              </p>
+            </div>
+
+            <div class="field">
+              <label class="label">Longitud</label>
+              <div class="control">
+                <input
+                  class="input"
+                  type="text"
+                  formControlName="longitude"
+                  placeholder="Ingrese Longitud"
+                  [class.is-danger]="
+                    formTienda.get('longitude')?.hasError('required') &&
+                    formTienda.controls['longitude'].touched
+                  "
+                  [class.is-danger]="
+                    formTienda.get('longitude')?.hasError('pattern') &&
+                    formTienda.controls['longitude'].touched
+                  "
+                  required
+                />
+              </div>
+              <p
+                class="help is-danger"
+                *ngIf="
+                  formTienda.get('longitude')?.hasError('required') &&
+                  formTienda.controls['longitude'].touched
+                "
+              >
+                Es un campo requerido
+              </p>
+              <p
+                class="help is-danger"
+                *ngIf="
+                  formTienda.get('longitude')?.hasError('pattern') &&
+                  formTienda.controls['longitude'].touched
+                "
+              >
+                El campo ingresado no es correcto
+              </p>
+            </div>
+            <div class="control is-flex is-flex-direction-row-reverse">
+              <button type="submit" class="button is-primary">
+                <span class="icon is-small">
+                  <i class="fas fa-save"></i>
+                </span>
+                <span>Guardar</span>
+              </button>
+            </div>
+            <br />
+            <div class="control">
+              <app-alert></app-alert>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="content">
+        <table class="table is-bordered is-striped">
+          <thead>
+            <tr>
+              <th>Código</th>
+              <th>Nombre</th>
+              <th>Dirección</th>
+              <th>Latitud</th>
+              <th>Longitud</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let store of stores$ | async as stores">
+              <td>{{ store.code }}</td>
+              <td>{{ store.name }}</td>
+              <td>{{ store.direction }}</td>
+              <td>{{ store.latitude }}</td>
+              <td>{{ store.longitude }}</td>
+              <td>
+                <button (click)="onEdit(store)" class="button is-link">
+                  <span class="icon is-small">
+                    <i class="fas fa-pencil"></i>
+                  </span>
+                  <span>Editar</span>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>

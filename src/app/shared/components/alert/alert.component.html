@@ -1,0 +1,4 @@
+<div *ngFor="let alert of alerts" class="notification {{ cssClass(alert) }}">
+  <button class="delete" (click)="removeAlert(alert)"></button>
+  <span [innerHTML]="alert.message"></span>
+</div>

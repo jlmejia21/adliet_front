@@ -1,0 +1,99 @@
+<section class="section">
+  <h1 class="title">Data Procesing</h1>
+  <div class="card">
+    <div class="card-content">
+      <div class="content">
+        <div class="is-flex is-flex-direction-column" style="gap: 20px">
+          <input
+            #inputFile
+            type="file"
+            name="file"
+            id="file"
+            (change)="uploadFile($event)"
+          />
+
+          <div
+            *ngIf="dataExcel && dataExcel.length > 0"
+            class="is-flex is-flex-direction-row-reverse"
+            style="gap: 20px"
+          >
+            <span *ngIf="proceedOrders > 0" class="tag is-danger"
+              >PROCESADO: {{ proceedOrders }}</span
+            >
+            <span *ngIf="notProceedOrders > 0" class="tag is-success"
+              >NO PROCESADO : {{ notProceedOrders }}</span
+            >
+          </div>
+          <table class="table" *ngIf="dataExcel && dataExcel.length > 0">
+            <thead>
+              <tr>
+                <th># PEDIDO</th>
+                <th>DEPARTAMENTO</th>
+                <th>PROVINCIA</th>
+                <th>DISTRITO</th>
+                <th>DIRECCIÓN</th>
+                <!-- <th>TELEFONO</th> -->
+                <th>UBIGEO</th>
+                <th>ESTADO</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let row of dataExcel
+                    | paginate
+                      : {
+                          itemsPerPage: itemsPerPage,
+                          currentPage: currentPage,
+                          totalItems: dataExcel.length
+                        }
+                "
+              >
+                <td>{{ row.ID }}</td>
+                <td>{{ row.DEPARTAMENTO }}</td>
+                <td>{{ row.PROVINCIA }}</td>
+                <td>{{ row.DISTRITO }}</td>
+                <td>{{ row.DIRECCION }}</td>
+                <!-- <td>{{ row.TELEFONO }}</td> -->
+                <td>{{ row.AQUI_GEO_MANUAL }}</td>
+                <td>
+                  <span *ngIf="row.PROCEED" class="tag is-danger"
+                    >PROCESADO</span
+                  >
+                  <span *ngIf="!row.PROCEED" class="tag is-success"
+                    >NO PROCESADO</span
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="is-flex is-flex-direction-row-reverse">
+            <pagination-controls
+              *ngIf="dataExcel && dataExcel.length > 0"
+              (pageChange)="currentPage = $event"
+              previousLabel="Anterior"
+              nextLabel="Siguiente"
+              total
+              screenReaderPaginationLabel="Paginación"
+              screenReaderPageLabel="Página"
+              screenReaderCurrentLabel="Estás en la página"
+            ></pagination-controls>
+          </div>
+          <div class="is-flex is-flex-direction-row-reverse" style="gap: 20px">
+            <button
+              [disabled]="dataExcel.length === 0"
+              (click)="onProcesing()"
+              class="button is-primary"
+            >
+              Procesar
+            </button>
+
+            <button (click)="onClear()" class="button is-default">
+              Limpiar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

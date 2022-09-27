@@ -1,0 +1,99 @@
+<section class="hero is-light is-fullheight">
+  <div class="hero-body">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-5-tablet is-6-desktop is--widescreen">
+          <h3 class="title has-text-black is-centered">ADLIET</h3>
+          <form [formGroup]="formLogin" (ngSubmit)="onSubmit()" class="box">
+            <div class="field">
+              <label for="" class="label">Usuario</label>
+              <div class="control has-icons-left has-icons-right">
+                <input
+                  [class.is-danger]="
+                    username?.hasError('required') && username?.touched
+                  "
+                  type="text"
+                  placeholder="e.g. ccabezudo@sagafalabella.com"
+                  class="input"
+                  formControlName="username"
+                  required
+                />
+                <span class="icon is-small is-left">
+                  <i class="fa fa-envelope"></i>
+                </span>
+
+                <span
+                  *ngIf="
+                    username?.hasError('required') && username?.touched;
+                    else showIconCheck
+                  "
+                  class="icon is-small is-right"
+                >
+                  <i class="fas fa-exclamation-triangle"></i>
+                </span>
+              </div>
+              <p
+                class="help is-danger"
+                *ngIf="username?.hasError('required') && username?.touched"
+              >
+                Es un campo requerido
+              </p>
+            </div>
+            <div class="field">
+              <label for="" class="label">Password</label>
+              <div class="control has-icons-left has-icons-right">
+                <input
+                  [class.is-danger]="
+                    password?.hasError('required') && password?.touched
+                  "
+                  type="password"
+                  placeholder="*******"
+                  class="input"
+                  formControlName="password"
+                  required
+                />
+                <span class="icon is-small is-left">
+                  <i class="fa fa-lock"></i>
+                </span>
+                <span
+                  *ngIf="
+                    password?.hasError('required') && password?.touched;
+                    else showIconCheck
+                  "
+                  class="icon is-small is-right"
+                >
+                  <i class="fas fa-exclamation-triangle"></i>
+                </span>
+              </div>
+              <p
+                class="help is-danger"
+                *ngIf="password?.hasError('required') && password?.touched"
+              >
+                Es un campo requerido
+              </p>
+            </div>
+            <div class="field">
+              <app-alert></app-alert>
+            </div>
+
+            <div class="field">
+              <button
+                [disabled]="formLogin.invalid"
+                type="submit"
+                class="button is-success"
+              >
+                Ingresar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<ng-template #showIconCheck>
+  <span class="icon is-small is-right">
+    <i class="fa fa-check"></i>
+  </span>
+</ng-template>

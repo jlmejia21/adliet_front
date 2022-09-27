@@ -1,0 +1,210 @@
+<section class="section">
+  <h1 class="title">Data Monitoring</h1>
+  <div class="card">
+    <div class="card-content">
+      <div class="content">
+        <form [formGroup]="formSearch" (ngSubmit)="onSubmit()">
+          <div class="columns">
+            <div class="column is-4">
+              <div class="select">
+                <select formControlName="store">
+                  <option [ngValue]="null">Seleccion la Tienda</option>
+                  <option
+                    *ngFor="let store of stores$ | async as stores"
+                    [ngValue]="store.id"
+                  >
+                    {{ store.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="column is-2">
+              <input
+                formControlName="start_date"
+                class="input"
+                type="text"
+                placeholder="dd/mm/yyyy"
+                [textMask]="{
+                  mask: dateMask,
+                  guide: true,
+                  keepCharPositions: true,
+                  pipe: autoCorrectedDatePipe
+                }"
+              />
+            </div>
+
+            <div class="column is-2">
+              <input
+                formControlName="end_date"
+                class="input"
+                type="text"
+                placeholder="dd/mm/yyyy"
+                [textMask]="{
+                  mask: dateMask,
+                  guide: true,
+                  keepCharPositions: true,
+                  pipe: autoCorrectedDatePipe
+                }"
+              />
+            </div>
+
+            <div class="column is-2">
+              <button class="button is-primary" type="submit">
+                <span class="icon is-small">
+                  <i class="fas fa-search"></i>
+                </span>
+                <span>Consultar</span>
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <!-- <div class="content">
+        <div class="tabs is-medium">
+          <ul>
+            <li
+              #liContent
+              *ngFor="let tab of tabs; let i = index"
+              (click)="onTab(tab, i)"
+            >
+              <a>{{ tab }}</a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <section #sectionContent class="tab-content">
+            <table
+              *ngIf="activities.length > 0"
+              class="table is-bordered is-striped"
+            >
+              <thead>
+                <tr>
+                  <th>Tienda</th>
+                  <th>Cliente</th>
+                  <th>Fecha</th>
+                  <th>Hora inicio</th>
+                  <th>Hora fin</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let activity of activities">
+                  <td>{{ activity.store_name }}</td>
+                  <td>{{ activity.customer_name }}</td>
+                  <td>{{ activity.date }}</td>
+                  <td>{{ activity.start_time }}</td>
+                  <td>{{ activity.end_time }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+          <section #sectionContent class="tab-content">
+            <table class="table is-bordered is-striped">
+              <thead>
+                <tr>
+                  <th>Tienda</th>
+                  <th>Fecha</th>
+                  <th>Destino</th>
+                  <th>Hora</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>San Miguel</td>
+                  <td>2022/06/25</td>
+                  <td>xxx@gmail.com</td>
+                  <td>23:55pm</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+          <section #sectionContent class="tab-content">
+            <table class="table is-bordered is-striped">
+              <thead>
+                <tr>
+                  <th>Tienda</th>
+                  <th>Fecha</th>
+                  <th>Cantidad</th>
+                  <th>Hora Inicio</th>
+                  <th>Hora Fin</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>San Miguel</td>
+                  <td>2022/06/25</td>
+                  <td>20000</td>
+                  <td>23:30pm</td>
+                  <td>00:10am</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </div>
+      </div> -->
+        <hr />
+
+        <div class="columns">
+          <div class="column is-flex is-flex-direction-row-reverse">
+            <button
+              [disabled]="activities.length === 0"
+              class="button is-primary"
+              (click)="onDownload()"
+            >
+              <span class="icon is-small">
+                <i class="fas fa-print"></i>
+              </span>
+              <span>Descargar</span>
+            </button>
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column is-12">
+            <table
+              id="searchTable"
+              *ngIf="activities.length > 0; else emptyTemplate"
+              class="table is-bordered is-striped"
+            >
+              <thead>
+                <tr>
+                  <th>Tienda</th>
+                  <th>Cliente</th>
+                  <th>Fecha</th>
+                  <th>Hora inicio</th>
+                  <th>Hora fin</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let activity of activities">
+                  <td>{{ activity.store_name }}</td>
+                  <td>{{ activity.customer_name }}</td>
+                  <td>{{ activity.date }}</td>
+                  <td>{{ activity.start_time }}</td>
+                  <td>{{ activity.end_time }}</td>
+                  <td>
+                    <ng-container
+                      *ngIf="activity.completed === 0; else noCompleted"
+                      >Pendiente</ng-container
+                    >
+
+                    <ng-template #noCompleted>Enviado</ng-template>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <ng-template #emptyTemplate>
+              <div class="notification is-warning">
+                <strong>
+                  Favor de cambiar los datos ingresados, no se encuentran
+                  registros.
+                </strong>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
