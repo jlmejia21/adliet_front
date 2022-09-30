@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   OnDestroy,
@@ -8,18 +9,21 @@ import {
   ViewChild,
 } from '@angular/core';
 import { GoogleMapsModule } from '@angular/google-maps';
-import { AsignationService } from '@core/services/asignation.service';
+import { AlertService } from '@core/services/alert.service';
+import { AssignationService } from '@core/services/assignation.service';
+import { ProcessService } from '@core/services/process.service';
+import { AlertModule } from '@shared/components/alert/alert.module';
 import { from, Subject, takeUntil } from 'rxjs';
 import { environment } from 'src/environments/environment';
 @Component({
-  selector: 'app-asignation',
-  templateUrl: './asignation.component.html',
-  styleUrls: ['./asignation.component.scss'],
+  selector: 'app-assignation',
+  templateUrl: './assignation.component.html',
+  styleUrls: ['./assignation.component.scss'],
   standalone: true,
-  imports: [GoogleMapsModule, CommonModule],
+  imports: [GoogleMapsModule, CommonModule, AlertModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AsignationComponent implements OnInit, OnDestroy {
+export class AssignationComponent implements OnInit, OnDestroy {
   @ViewChild('mapRef', { static: true }) mapElement!: ElementRef;
   map: any;
   markers: google.maps.Marker[] = [];
@@ -55,9 +59,18 @@ export class AsignationComponent implements OnInit, OnDestroy {
   ];
   infoWindows: any[] = [];
   results: any[] = [];
+  process!: any;
+  options = {
+    autoClose: true,
+  };
   private unsubscribe$: Subject<void> = new Subject();
 
-  constructor(private _asignationService: AsignationService) {}
+  constructor(
+    private _asignationService: AssignationService,
+    private processService: ProcessService,
+    public alertService: AlertService,
+    private cd: ChangeDetectorRef
+  ) {}
 
   ngOnDestroy(): void {
     this.unsubscribe$.next();
@@ -69,6 +82,7 @@ export class AsignationComponent implements OnInit, OnDestroy {
       .getOrderAsignation()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((res) => {
+        console.log(res);
         this.results = res;
         this.renderMap();
       });
@@ -203,6 +217,39 @@ export class AsignationComponent implements OnInit, OnDestroy {
   }
 
   onRegister() {
-    console.log(this.results);
+    if (this.results.length === 0 || this.process?.id > 0) {
+      return;
+    }
+    this.alertService.clear();
+    this.processService
+      .add(this.mapOrders(this.results))
+      .subscribe((process) => {
+        this.process = process;
+        console.log(this.process);
+        this.alertService.success(
+          'Se guardaron los datos correctamente!',
+          this.options
+        );
+        this.cd.markForCheck();
+      });
+  }
+
+  mapOrders(results: any[]) {
+    let orders: any[] = [];
+    results.forEach((r) => {
+      const newOrders = r.orders.map((o: any) => {
+        return {
+          code: o.order,
+          latitude: o.latitude,
+          longitude: o.longitude,
+          store_id: Number(r.store.id),
+        };
+      });
+      orders = [...orders, ...newOrders];
+    });
+    return {
+      numberOrders: orders.length,
+      orders,
+    };
   }
 }

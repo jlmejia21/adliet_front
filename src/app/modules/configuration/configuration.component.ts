@@ -2,12 +2,12 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  OnInit,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@core/interfaces/store';
 import { AlertService } from '@core/services/alert.service';
 import { StoreService } from '@core/services/store.service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-configuration',
@@ -15,13 +15,15 @@ import { Observable } from 'rxjs';
   styleUrls: ['./configuration.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfigurationComponent {
+export class ConfigurationComponent implements OnInit {
   formTienda: FormGroup;
-  stores$: Observable<Store[]> = this.storeService.getAll();
+  stores!: any[];
   storeSelected!: Store;
   options = {
     autoClose: true,
   };
+  currentPage = 1;
+  itemsPerPage = 10;
 
   constructor(
     private fb: FormBuilder,
@@ -54,6 +56,17 @@ export class ConfigurationComponent {
     });
   }
 
+  getStores() {
+    this.storeService.getAll().subscribe((stores) => {
+      this.stores = stores;
+      this.cd.detectChanges();
+    });
+  }
+
+  ngOnInit(): void {
+    this.getStores();
+  }
+
   onEdit(store: Store) {
     this.storeSelected = store;
     this.formTienda.get('code')?.setValue(store.code);
@@ -65,7 +78,7 @@ export class ConfigurationComponent {
   }
 
   onSubmit() {
-    console.log(this.formTienda.get('latitude')?.hasError);
+    this.currentPage = 1;
     this.alertService.clear();
     if (this.formTienda.invalid) return;
 
@@ -91,7 +104,7 @@ export class ConfigurationComponent {
           'Se guardaron los datos correctamente!',
           this.options
         );
-        this.stores$ = this.storeService.getAll();
+        this.getStores();
         this.formTienda.reset();
         this.cd.markForCheck();
       });

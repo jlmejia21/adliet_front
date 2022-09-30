@@ -64,10 +64,13 @@ export class OrdersComponent implements OnInit {
 
   onSearch() {
     const store = this.authService.getStore();
-    this.orderService.search(store).subscribe((pedidos) => {
-      this.pedidos = pedidos;
-      this.cd.markForCheck();
-    });
+    this.orderService
+      .getOrdersPendingByStore(Number(store))
+      .subscribe((pedidos: any) => {
+        console.log(pedidos);
+        this.pedidos = pedidos.data;
+        this.cd.markForCheck();
+      });
   }
 
   onCheckChange(event: any) {
@@ -90,8 +93,9 @@ export class OrdersComponent implements OnInit {
 
   onSubmit() {
     this.alertService.clear();
-    const ordersToSend = this.formSave.value?.completed;
-
+    const ordersToSend = this.formSave.value?.completed.filter(
+      (id: number) => id !== null
+    );
     if (ordersToSend.length === 0) {
       this.alertService.warn(
         'Favor de seleccion al menos un pedido.',
@@ -99,19 +103,23 @@ export class OrdersComponent implements OnInit {
       );
       return;
     }
-    ordersToSend.forEach((id: number) => {});
-
-    const obserbables = ordersToSend.map((id: number) =>
-      this.orderService.update(id)
-    );
+    const obserbables = ordersToSend
+      .filter((id: number) => id !== null)
+      .map((id: number) => this.orderService.updateStatusToCompleted(id));
 
     forkJoin([...obserbables]).subscribe((res) => {
       this.alertService.success(
         'Se guardaron los datos correctamente!',
         this.options
       );
+      this.clearFormArray();
       this.onSearch();
       this.cd.markForCheck();
     });
+  }
+
+  clearFormArray() {
+    const formArray: FormArray = this.formSave.get('completed') as FormArray;
+    formArray.reset();
   }
 }

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AssignationGuard } from '@core/guards/assignation.guard';
 import { DataProcesingComponent } from './data-procesing.component';
 
 const routes: Routes = [
@@ -8,10 +9,11 @@ const routes: Routes = [
     component: DataProcesingComponent,
   },
   {
-    path: 'asignation',
+    path: 'assignation',
+    canActivate: [AssignationGuard],
     loadComponent: () =>
-      import('./components/asignation/asignation.component').then(
-        (c) => c.AsignationComponent
+      import('./components/assignation/assignation.component').then(
+        (c) => c.AssignationComponent
       ),
   },
 ];

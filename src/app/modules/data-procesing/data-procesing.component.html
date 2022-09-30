@@ -10,7 +10,10 @@
             name="file"
             id="file"
             (change)="uploadFile($event)"
+            accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
           />
+
+          <app-alert></app-alert>
 
           <div
             *ngIf="dataExcel && dataExcel.length > 0"
@@ -81,7 +84,7 @@
           </div>
           <div class="is-flex is-flex-direction-row-reverse" style="gap: 20px">
             <button
-              [disabled]="dataExcel.length === 0"
+              [disabled]="dataExcel.length === 0 || notProceedOrders === 0"
               (click)="onProcesing()"
               class="button is-primary"
             >

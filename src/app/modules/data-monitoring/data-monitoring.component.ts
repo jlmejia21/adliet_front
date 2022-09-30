@@ -11,11 +11,11 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Store } from '@core/interfaces/store';
+import { OrderService } from '@core/services/order.service';
 import { StoreService } from '@core/services/store.service';
 import { Observable } from 'rxjs';
 import { createAutoCorrectedDatePipe } from 'text-mask-addons';
 import * as XLSX from 'xlsx';
-
 @Component({
   selector: 'app-data-monitoring',
   templateUrl: './data-monitoring.component.html',
@@ -30,11 +30,14 @@ export class DataMonitoringComponent implements OnInit, AfterViewInit {
   @ViewChildren('sectionContent') sectionContents!: QueryList<ElementRef>;
   @ViewChildren('liContent') liContents!: QueryList<ElementRef>;
 
-  activities: any[] = [];
+  orders: any[] = [];
+  currentPage = 1;
+  itemsPerPage = 10;
 
   constructor(
     private renderer: Renderer2,
     private storeService: StoreService,
+    private orderService: OrderService,
     private fb: FormBuilder,
     private cd: ChangeDetectorRef
   ) {
@@ -91,20 +94,21 @@ export class DataMonitoringComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit() {
-    this.storeService
-      .getActivities(
+    this.currentPage = 1;
+    this.orderService
+      .getOrdersByFilter(
         this.formSearch.value.store,
         this.formatDateString(this.formSearch.value.start_date),
         this.formatDateString(this.formSearch.value.end_date)
       )
       .subscribe((res: any) => {
-        this.activities = res.data;
+        this.orders = res.data;
         this.cd.markForCheck();
       });
   }
 
   onDownload() {
-    if (this.activities.length === 0) return;
+    if (this.orders.length === 0) return;
     let element = document.getElementById('searchTable');
     const worksheet: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
 
