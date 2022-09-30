@@ -147,7 +147,7 @@
         <div class="columns">
           <div class="column is-flex is-flex-direction-row-reverse">
             <button
-              [disabled]="activities.length === 0"
+              [disabled]="orders.length === 0"
               class="button is-primary"
               (click)="onDownload()"
             >
@@ -162,37 +162,55 @@
           <div class="column is-12">
             <table
               id="searchTable"
-              *ngIf="activities.length > 0; else emptyTemplate"
+              *ngIf="orders.length > 0; else emptyTemplate"
               class="table is-bordered is-striped"
             >
               <thead>
                 <tr>
-                  <th>Tienda</th>
-                  <th>Cliente</th>
+                  <th># Pedido</th>
+                  <th>Tienda Asignada</th>
+                  <th>Ubigeo Pedido</th>
                   <th>Fecha</th>
-                  <th>Hora inicio</th>
-                  <th>Hora fin</th>
                   <th>Estado</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let activity of activities">
-                  <td>{{ activity.store_name }}</td>
-                  <td>{{ activity.customer_name }}</td>
-                  <td>{{ activity.date }}</td>
-                  <td>{{ activity.start_time }}</td>
-                  <td>{{ activity.end_time }}</td>
+                <tr
+                  *ngFor="
+                    let order of orders
+                      | paginate
+                        : {
+                            itemsPerPage: itemsPerPage,
+                            currentPage: currentPage,
+                            totalItems: orders.length
+                          }
+                  "
+                >
+                  <td>{{ order.code }}</td>
+                  <td>{{ order.store.name }}</td>
+                  <td>{{ order.latitude }},{{ order.longitude }}</td>
+                  <td>{{ order.process.createdAt | dateStr }}</td>
                   <td>
-                    <ng-container
-                      *ngIf="activity.completed === 0; else noCompleted"
+                    <ng-container *ngIf="!order.status; else noCompleted"
                       >Pendiente</ng-container
                     >
-
                     <ng-template #noCompleted>Enviado</ng-template>
                   </td>
                 </tr>
               </tbody>
             </table>
+            <div class="is-flex is-flex-direction-row-reverse">
+              <pagination-controls
+                *ngIf="orders && orders.length > 0"
+                (pageChange)="currentPage = $event"
+                previousLabel="Anterior"
+                nextLabel="Siguiente"
+                total
+                screenReaderPaginationLabel="Paginación"
+                screenReaderPageLabel="Página"
+                screenReaderCurrentLabel="Estás en la página"
+              ></pagination-controls>
+            </div>
 
             <ng-template #emptyTemplate>
               <div class="notification is-warning">

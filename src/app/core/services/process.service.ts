@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root',
 })
-export class ProcessingService {
+export class ProcessService {
   constructor(private http: HttpClient) {}
 
   processFile(formData: FormData) {
@@ -14,5 +14,9 @@ export class ProcessingService {
       .set('Content-Type', 'multipart/form-data')
       .set('Accept', 'application/json');
     return this.http.post(`${environment.urlKmeans}`, formData, { headers });
+  }
+
+  add(payload: any) {
+    return this.http.post(`${environment.url}/process/`, payload);
   }
 }

@@ -4,15 +4,21 @@
     <div class="card-content">
       <div class="content">
         <div class="is-flex is-flex-direction-column" style="gap: 20px">
-          <div class="is-flex is-flex-direction-row-reverse">
+          <div class="is-flex is-flex-direction-row-reverse" style="gap: 20px">
             <button
               (click)="onRegister()"
               class="button is-primary"
-              [disabled]="results.length === 0"
+              [disabled]="results.length === 0 || process?.id > 0"
             >
               Registrar Asignación
             </button>
+
+            <button *ngIf="process?.id > 0" class="button is-primary">
+              Generar Reporte
+            </button>
           </div>
+
+          <app-alert></app-alert>
 
           <div class="columns">
             <div class="column is-4">

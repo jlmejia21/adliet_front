@@ -151,7 +151,17 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let store of stores$ | async as stores">
+            <tr
+              *ngFor="
+                let store of stores
+                  | paginate
+                    : {
+                        itemsPerPage: itemsPerPage,
+                        currentPage: currentPage,
+                        totalItems: stores.length
+                      }
+              "
+            >
               <td>{{ store.code }}</td>
               <td>{{ store.name }}</td>
               <td>{{ store.direction }}</td>
@@ -168,6 +178,18 @@
             </tr>
           </tbody>
         </table>
+        <div class="is-flex is-flex-direction-row-reverse">
+          <pagination-controls
+            *ngIf="stores && stores.length > 0"
+            (pageChange)="currentPage = $event"
+            previousLabel="Anterior"
+            nextLabel="Siguiente"
+            total
+            screenReaderPaginationLabel="Paginación"
+            screenReaderPageLabel="Página"
+            screenReaderCurrentLabel="Estás en la página"
+          ></pagination-controls>
+        </div>
       </div>
     </div>
   </div>

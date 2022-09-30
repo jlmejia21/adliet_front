@@ -29,8 +29,7 @@
               >
                 <thead>
                   <tr>
-                    <th>Pedido</th>
-                    <th>Cliente</th>
+                    <th># Pedido</th>
                     <th>Latitud</th>
                     <th>Longitud</th>
                     <th align="center">Completado</th>
@@ -38,15 +37,14 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let pedido of pedidos">
-                    <td>{{ pedido.id_order }}</td>
-                    <td>{{ pedido.cliente }}</td>
+                    <td>{{ pedido.code }}</td>
                     <td>{{ pedido.latitude }}</td>
                     <td>{{ pedido.latitude }}</td>
                     <td align="center">
                       <label class="checkbox">
                         <input
                           type="checkbox"
-                          [value]="pedido.id_processes_detail"
+                          [value]="pedido.id"
                           (change)="onCheckChange($event)"
                         />
                       </label>
