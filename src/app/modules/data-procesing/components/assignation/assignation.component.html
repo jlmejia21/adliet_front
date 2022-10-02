@@ -13,8 +13,12 @@
               Registrar Asignación
             </button>
 
-            <button *ngIf="process?.id > 0" class="button is-primary">
-              Generar Reporte
+            <button
+              (click)="sendNotificaton()"
+              *ngIf="process?.id > 0"
+              class="button is-primary"
+            >
+              Enviar notificación
             </button>
           </div>
 

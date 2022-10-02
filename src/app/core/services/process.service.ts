@@ -19,4 +19,8 @@ export class ProcessService {
   add(payload: any) {
     return this.http.post(`${environment.url}/process/`, payload);
   }
+
+  sendEmail(id: number) {
+    return this.http.post(`${environment.url}/process/`, { id: id });
+  }
 }

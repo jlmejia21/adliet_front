@@ -225,7 +225,6 @@ export class AssignationComponent implements OnInit, OnDestroy {
       .add(this.mapOrders(this.results))
       .subscribe((process) => {
         this.process = process;
-        console.log(this.process);
         this.alertService.success(
           'Se guardaron los datos correctamente!',
           this.options
@@ -251,5 +250,17 @@ export class AssignationComponent implements OnInit, OnDestroy {
       numberOrders: orders.length,
       orders,
     };
+  }
+
+  sendNotificaton() {
+    this.alertService.clear();
+
+    this.processService.sendEmail(this.process.id).subscribe((resp) => {
+      this.alertService.success(
+        `Se envio la notifiacion con la informacion del proceso:# ${this.process.id}`,
+        this.options
+      );
+      this.cd.markForCheck();
+    });
   }
 }
