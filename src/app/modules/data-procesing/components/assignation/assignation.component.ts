@@ -82,7 +82,6 @@ export class AssignationComponent implements OnInit, OnDestroy {
       .getOrderAsignation()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((res) => {
-        console.log(res);
         this.results = res;
         this.renderMap();
       });
@@ -257,7 +256,7 @@ export class AssignationComponent implements OnInit, OnDestroy {
 
     this.processService.sendEmail(this.process.id).subscribe((resp) => {
       this.alertService.success(
-        `Se envio la notifiacion con la informacion del proceso:# ${this.process.id}`,
+        `Se envio la notificación con la informacion del proceso:# ${this.process.id}`,
         this.options
       );
       this.cd.markForCheck();

@@ -48,7 +48,6 @@ export class AlertComponent implements OnInit {
   }
 
   removeAlert(alert: Alert) {
-    debugger;
     // check if already removed to prevent error on auto close
     if (!this.alerts.includes(alert)) return;
 

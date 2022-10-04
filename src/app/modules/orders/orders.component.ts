@@ -67,7 +67,6 @@ export class OrdersComponent implements OnInit {
     this.orderService
       .getOrdersPendingByStore(Number(store))
       .subscribe((pedidos: any) => {
-        console.log(pedidos);
         this.pedidos = pedidos.data;
         this.cd.markForCheck();
       });

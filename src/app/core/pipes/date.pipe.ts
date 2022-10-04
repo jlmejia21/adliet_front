@@ -6,7 +6,6 @@ import * as moment from 'moment';
 })
 export class DatePipe implements PipeTransform {
   transform(dateStr: string): string {
-    console.log(dateStr);
     const date = moment(dateStr);
     return date.format('DD/MM/YYYY');
   }

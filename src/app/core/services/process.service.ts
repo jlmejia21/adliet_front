@@ -21,6 +21,6 @@ export class ProcessService {
   }
 
   sendEmail(id: number) {
-    return this.http.post(`${environment.url}/process/`, { id: id });
+    return this.http.post(`${environment.url}/process/sendEmail`, { id: id });
   }
 }

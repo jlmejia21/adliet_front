@@ -17,7 +17,7 @@ import { StoreService } from '@core/services/store.service';
 })
 export class ConfigurationComponent implements OnInit {
   formTienda: FormGroup;
-  stores!: any[];
+  stores: any[] = [];
   storeSelected!: Store;
   options = {
     autoClose: true,
