@@ -5,7 +5,7 @@
       <div class="content">
         <form [formGroup]="formSearch" (ngSubmit)="onSubmit()">
           <div class="columns">
-            <div class="column is-4">
+            <div class="column is-3">
               <div class="select">
                 <select formControlName="store">
                   <option [ngValue]="null">Seleccion la Tienda</option>
@@ -19,8 +19,11 @@
               </div>
             </div>
 
-            <div class="column is-2">
+            <div class="column is-3">
               <input
+                [class.is-danger]="
+                  start_date?.hasError('isInvalidDate') && start_date?.touched
+                "
                 formControlName="start_date"
                 class="input"
                 type="text"
@@ -32,10 +35,21 @@
                   pipe: autoCorrectedDatePipe
                 }"
               />
+              <p
+                class="help is-danger"
+                *ngIf="
+                  start_date?.hasError('isInvalidDate') && start_date?.touched
+                "
+              >
+                La fecha ingresada es inválida.
+              </p>
             </div>
 
-            <div class="column is-2">
+            <div class="column is-3">
               <input
+                [class.is-danger]="
+                  end_date?.hasError('isInvalidDate') && end_date?.touched
+                "
                 formControlName="end_date"
                 class="input"
                 type="text"
@@ -47,6 +61,12 @@
                   pipe: autoCorrectedDatePipe
                 }"
               />
+              <p
+                class="help is-danger"
+                *ngIf="end_date?.hasError('isInvalidDate') && end_date?.touched"
+              >
+                La fecha ingresada es inválida.
+              </p>
             </div>
 
             <div class="column is-2">

@@ -13,6 +13,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Store } from '@core/interfaces/store';
 import { OrderService } from '@core/services/order.service';
 import { StoreService } from '@core/services/store.service';
+import { ValidatorsExtend } from '@core/utils/validators-extend';
 import { Observable } from 'rxjs';
 import { createAutoCorrectedDatePipe } from 'text-mask-addons';
 import * as XLSX from 'xlsx';
@@ -43,8 +44,8 @@ export class DataMonitoringComponent implements OnInit, AfterViewInit {
   ) {
     this.formSearch = this.fb.group({
       store: [null, []],
-      start_date: [null, []],
-      end_date: [null, []],
+      start_date: [null, [ValidatorsExtend.todayAsMinDate()]],
+      end_date: [null, [ValidatorsExtend.todayAsMinDate()]],
     });
   }
 
@@ -54,6 +55,14 @@ export class DataMonitoringComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.onSubmit();
+  }
+
+  get start_date() {
+    return this.formSearch.get('start_date');
+  }
+
+  get end_date() {
+    return this.formSearch.get('end_date');
   }
 
   // onTab(tab: string, i: number) {
@@ -94,6 +103,7 @@ export class DataMonitoringComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit() {
+    if (!this.formSearch.valid) return;
     this.currentPage = 1;
     this.orderService
       .getOrdersByFilter(
@@ -119,7 +129,7 @@ export class DataMonitoringComponent implements OnInit, AfterViewInit {
   }
 
   formatDateString(date: string | null): any {
-    if (date === null) return null;
+    if (date === null || date === '') return null;
     var resultDate = date.split(/\D/);
     return resultDate.reverse().join('-');
   }
