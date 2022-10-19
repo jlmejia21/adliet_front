@@ -13,7 +13,9 @@ export class ProcessService {
     headers
       .set('Content-Type', 'multipart/form-data')
       .set('Accept', 'application/json');
-    return this.http.post(`${environment.urlKmeans}`, formData, { headers });
+    return this.http.post<any[]>(`${environment.urlKmeans}`, formData, {
+      headers,
+    });
   }
 
   add(payload: any) {

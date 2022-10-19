@@ -144,7 +144,7 @@ export class DataProcesingComponent implements OnInit {
   }
 
   onProcesing() {
-    this.processService.processFile(this.formData).subscribe((res) => {
+    this.processService.processFile(this.formData).subscribe((res: any[]) => {
       this.assignationService.setOrderAsignation(res);
       this.router.navigate(['/data-procesing/assignation']);
     });

@@ -8,6 +8,9 @@ import { environment } from 'src/environments/environment.prod';
 export class OrderService {
   constructor(private http: HttpClient) {}
 
+  getAllOrdersByStore(id: number) {
+    return this.http.get<any>(`${environment.url}/order/store/all/${id}`);
+  }
   getOrdersPendingByStore(id: number) {
     return this.http.get<any>(`${environment.url}/order/store/${id}`);
   }

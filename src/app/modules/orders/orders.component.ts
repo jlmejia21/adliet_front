@@ -12,8 +12,10 @@ import {
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AlertService } from '@core/services/alert.service';
 import { AuthService } from '@core/services/auth.service';
+import { DistanceService } from '@core/services/distance.service';
 import { OrderService } from '@core/services/order.service';
 import { StoreService } from '@core/services/store.service';
 import { AlertModule } from '@shared/components/alert/alert.module';
@@ -42,7 +44,9 @@ export class OrdersComponent implements OnInit {
     public authService: AuthService,
     public storeService: StoreService,
     private cd: ChangeDetectorRef,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    public distanceService: DistanceService,
+    private router: Router
   ) {
     this.formSave = this.fb.group({
       completed: new FormArray([]),
@@ -120,5 +124,10 @@ export class OrdersComponent implements OnInit {
   clearFormArray() {
     const formArray: FormArray = this.formSave.get('completed') as FormArray;
     formArray.reset();
+  }
+
+  onMoreInformation(pedido: any) {
+    this.distanceService.setOrderDistance(pedido);
+    this.router.navigate(['/info-order']);
   }
 }

@@ -32,6 +32,7 @@
                     <th># Pedido</th>
                     <th>Latitud</th>
                     <th>Longitud</th>
+                    <th>Distancia</th>
                     <th align="center">Completado</th>
                   </tr>
                 </thead>
@@ -40,6 +41,14 @@
                     <td>{{ pedido.code }}</td>
                     <td>{{ pedido.latitude }}</td>
                     <td>{{ pedido.latitude }}</td>
+                    <td>
+                      <button
+                        (click)="onMoreInformation(pedido)"
+                        class="button is-small is-info"
+                      >
+                        Más Información
+                      </button>
+                    </td>
                     <td align="center">
                       <label class="checkbox">
                         <input

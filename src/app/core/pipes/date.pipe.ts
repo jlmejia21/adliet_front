@@ -4,7 +4,10 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'dateStr',
 })
 export class DatePipe implements PipeTransform {
-  transform(dateStr: string): string {
+  transform(dateStr: string | null): string {
+    if (dateStr === null) {
+      return '';
+    }
     // const date = moment(dateStr);
     // return date.format('DD/MM/YYYY');
     const splitString = dateStr.slice(0, 10);

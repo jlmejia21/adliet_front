@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { DistanceGuard } from '@core/guards/distance.guard';
 import { LayoutComponent } from './layout.component';
 
 export const routes: Routes = [
@@ -39,6 +40,21 @@ export const routes: Routes = [
         path: 'orders',
         loadComponent: () =>
           import('../orders/orders.component').then((m) => m.OrdersComponent),
+      },
+      {
+        path: 'historical',
+        loadComponent: () =>
+          import('../historical/historical.component').then(
+            (m) => m.HistoricalComponent
+          ),
+      },
+      {
+        path: 'info-order',
+        canActivate: [DistanceGuard],
+        loadComponent: () =>
+          import('../info-order/info-order.component').then(
+            (c) => c.InfoOrderComponent
+          ),
       },
     ],
   },

@@ -1,0 +1,89 @@
+<section class="section">
+  <h1 class="title">Información del pedido</h1>
+  <div class="card">
+    <div class="card-content">
+      <div class="content">
+        <div class="columns">
+          <div class="column is-6">
+            <div class="field">
+              <label for="" class="label">Tienda</label>
+              <div class="control">
+                <input
+                  class="input"
+                  type="text"
+                  [value]="store?.name"
+                  readonly
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column is-6">
+            <div class="field">
+              <label for="" class="label">Origen</label>
+              <div class="control">
+                <input class="input" type="text" [value]="origin" readonly />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column is-6">
+            <div class="field">
+              <label for="" class="label">Destino</label>
+              <div class="control">
+                <input
+                  class="input"
+                  type="text"
+                  [value]="destination"
+                  readonly
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column is-6">
+            <div class="field">
+              <label for="" class="label">Distancia</label>
+              <div class="control">
+                <input
+                  class="input"
+                  type="text"
+                  [value]="distance?.text"
+                  readonly
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column is-6">
+            <div class="field">
+              <label for="" class="label">Duración</label>
+              <div class="control">
+                <input
+                  class="input"
+                  type="text"
+                  [value]="duration?.text"
+                  readonly
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column is-flex is-flex-direction-row-reverse">
+            <button (click)="onBack()" class="button is-default">
+              <span class="icon is-small">
+                <i class="fas fa-arrow-left"></i>
+              </span>
+              <span>Atrás</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

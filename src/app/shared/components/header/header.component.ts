@@ -33,7 +33,10 @@ export class HeaderComponent implements OnInit {
     { link: '/configuration', name: 'Configuración', icon: 'fa-gears' },
   ];
 
-  driverRoutes = [{ link: '/orders', name: 'Pedidos', icon: 'fa-shop' }];
+  driverRoutes = [
+    { link: '/orders', name: 'Pedidos', icon: 'fa-shop' },
+    { link: '/historical', name: 'Historial', icon: 'fa-list' },
+  ];
 
   logoRoute = '';
 
