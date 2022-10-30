@@ -31,6 +31,7 @@ export class HeaderComponent implements OnInit {
       icon: 'fa-print',
     },
     { link: '/configuration', name: 'Configuración', icon: 'fa-gears' },
+    { link: '/events', name: 'Eventos', icon: 'fa-bell' },
   ];
 
   driverRoutes = [

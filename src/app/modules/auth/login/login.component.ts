@@ -15,6 +15,7 @@ import { catchError, tap } from 'rxjs';
 })
 export class LoginComponent {
   formLogin: FormGroup;
+  title = 'ADLIET';
 
   options = {
     autoClose: true,
@@ -27,10 +28,10 @@ export class LoginComponent {
     private alertService: AlertService
   ) {
     this.formLogin = this.fb.group({
-      username: ['jose@gmail.com', Validators.required],
-      password: ['12345678', Validators.required],
-      // username: [null, Validators.required],
-      // password: [null, Validators.required],
+      // username: ['jose@gmail.com', Validators.required],
+      // password: ['12345678', Validators.required],
+      username: [null, Validators.required],
+      password: [null, Validators.required],
     });
   }
 

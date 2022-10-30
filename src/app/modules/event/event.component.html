@@ -1,0 +1,79 @@
+<section class="section">
+  <h1 class="title">Eventos de procesamiento automático</h1>
+  <div class="card">
+    <div class="card-content">
+      <div class="content">
+        <div class="columns">
+          <div class="column is-12">
+            <p>
+              La ejecución del proceso automatica se realiza:
+              <span class="tag is-info">{{ cronDescription }}</span>
+            </p>
+          </div>
+        </div>
+        <hr />
+        <div class="columns">
+          <div class="column is-12">
+            <table
+              id="searchTable"
+              *ngIf="events.length > 0; else emptyTemplate"
+              class="table is-bordered is-striped"
+            >
+              <thead>
+                <tr>
+                  <th># Evento</th>
+                  <th>Categoria</th>
+                  <th>Descripción</th>
+                  <th># Proceso</th>
+                  <th>Fecha Creación</th>
+                  <th># Evento Ref.</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="
+                    let event of events
+                      | paginate
+                        : {
+                            itemsPerPage: itemsPerPage,
+                            currentPage: currentPage,
+                            totalItems: events.length
+                          };
+                    let i = index
+                  "
+                  [class.is-selected]="event.category === complete"
+                  [class.is-incomplete]="event.category === incomplete"
+                >
+                  <td>{{ event.id }}</td>
+                  <td>{{ event.category }}</td>
+                  <td>{{ event.description }}</td>
+                  <td>{{ event.process_id }}</td>
+                  <td>{{ event.createdAt | dateHourStr }}</td>
+                  <td>{{ event.event_id_ref }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="is-flex is-flex-direction-row-reverse">
+              <pagination-controls
+                *ngIf="events && events.length > 0"
+                (pageChange)="currentPage = $event"
+                previousLabel="Anterior"
+                nextLabel="Siguiente"
+                total
+                screenReaderPaginationLabel="Paginación"
+                screenReaderPageLabel="Página"
+                screenReaderCurrentLabel="Estás en la página"
+              ></pagination-controls>
+            </div>
+
+            <ng-template #emptyTemplate>
+              <div class="notification is-warning">
+                <strong> No hay eventos de procesamiento automático </strong>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

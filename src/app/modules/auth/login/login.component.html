@@ -3,8 +3,13 @@
     <div class="container">
       <div class="columns is-centered">
         <div class="column is-5-tablet is-6-desktop is--widescreen">
-          <h3 class="title has-text-black is-centered">ADLIET</h3>
-          <form [formGroup]="formLogin" (ngSubmit)="onSubmit()" class="box">
+          <h3 class="title has-text-black is-centered">{{ title }}</h3>
+          <form
+            [formGroup]="formLogin"
+            (ngSubmit)="onSubmit()"
+            class="box"
+            id="loginForm"
+          >
             <div class="field">
               <label for="" class="label">Usuario</label>
               <div class="control has-icons-left has-icons-right">
